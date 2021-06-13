@@ -42,7 +42,7 @@ class HtmlParser {
         const childElement = element.querySelector(elementSelector);
 
         if (isFromDataset) {
-          content = childElement.dataset[wantedField];
+          content = childElement?.dataset[wantedField];
         } else {
           content = childElement[wantedField];
         }
