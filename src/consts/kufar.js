@@ -1,11 +1,11 @@
 const URL = "https://www.kufar.by/";
 
-const CLASSNAMES = {
-  PRODUCT: "kf-byYl-8c551",
-  PRODUCT_PHOTO: "kf-byyg-c7260",
-  PRODUCT_NAME: "kf-byiq-2725f",
-  PRODUCT_PRICE: "kf-KHyl-20a76",
-  PRODUCT_DATE: "kf-bxpZ-c559d",
+const SELECTORS = {
+  PRODUCT: 'a[href^="https://www.kufar.by/item/"]',
+  PRODUCT_PHOTO: "img",
+  PRODUCT_NAME: "h3",
+  PRODUCT_PRICE: ".kf-FeeL-f1d17",
+  PRODUCT_DATE: "div + div span",
 };
 
-module.exports = { CLASSNAMES, URL };
+module.exports = { SELECTORS, URL };

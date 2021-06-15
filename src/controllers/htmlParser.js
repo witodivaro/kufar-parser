@@ -54,8 +54,8 @@ class HtmlParser {
     return parsedData;
   }
 
-  querySelectorAllByClass(className) {
-    return this.htmlDom.window.document.querySelectorAll("." + className);
+  querySelectorAll(selector) {
+    return this.htmlDom.window.document.querySelectorAll(selector);
   }
 }
 

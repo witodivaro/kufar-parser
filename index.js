@@ -1,9 +1,11 @@
+const fs = require("fs");
+
 const HtmlParser = require("./src/controllers/htmlParser");
 const Fetcher = require("./src/controllers/fetcher");
 const ExcelWriter = require("./src/controllers/excelWriter");
 const Repository = require("./src/model/repository");
 
-const { CLASSNAMES } = require("./src/consts/kufar");
+const { SELECTORS } = require("./src/consts/kufar");
 const { generateKufarListingsUrl } = require("./src/utils/kufar");
 const { getDaysAgo, parsePrice } = require("./src/utils/parsers");
 
@@ -25,27 +27,31 @@ fetcher.setFetchLink(generateKufarListingsUrl(wantedProduct));
 const run = async () => {
   const html = await fetcher.fetchData("text");
 
+  fs.writeFileSync("kufar.html", html);
+
   const htmlParser = new HtmlParser(html);
 
-  const productElements = htmlParser.querySelectorAllByClass(
-    CLASSNAMES.PRODUCT
-  );
+  const productElements = htmlParser.querySelectorAll(SELECTORS.PRODUCT);
+
+  console.log(productElements[0]);
 
   productElements.forEach((product) => {
     const parsedProduct = HtmlParser.parseElement(product, {
-      name: "." + CLASSNAMES.PRODUCT_NAME,
-      price: "." + CLASSNAMES.PRODUCT_PRICE,
+      name: SELECTORS.PRODUCT_NAME,
+      price: SELECTORS.PRODUCT_PRICE,
       photo: {
-        selector: "." + CLASSNAMES.PRODUCT_PHOTO,
+        selector: SELECTORS.PRODUCT_PHOTO,
         field: "src",
         fromDataset: true,
       },
-      date: "." + CLASSNAMES.PRODUCT_DATE,
+      date: SELECTORS.PRODUCT_DATE,
       link: {
         selector: "self!",
         field: "href",
       },
     });
+
+    console.log(parsedProduct);
 
     parsedProduct.price = parsePrice(parsedProduct.price);
     parsedProduct.date = getDaysAgo(parsedProduct.date);
